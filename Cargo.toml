@@ -1,0 +1,21 @@
+[package]
+name = "wssserver"
+version = "0.1.0"
+authors = ["lamhai1401 <lamthanhhai141@gmail.com>"]
+edition = "2018"
+default-run = "wssserver"
+readme = "README.md"
+homepage = "https://github.com/lamhai1401/wssserver"
+repository = "https://github.com/lamhai1401/wssserver"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+
+[lib]
+name = "wssserver"
+# path = "src/"
+
+[[bin]]
+name = "wssserver"
+path = "src/bin/main.rs"

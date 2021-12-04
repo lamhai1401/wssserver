@@ -1,0 +1,18 @@
+[dependencies]
+db = { path = "../db" } # data base
+actix-cors = "0.5.4"
+actix-http = "2.2.0"
+actix-service = "2.0.0"
+actix = "0.12.0"
+actix-web = "3.3.2"
+actix-rt = "1.1.1"
+dotenv = "0.9.0"
+env_logger = "0.8.2"
+futures = "0.3.5"
+futures-util = "0.3.5"
+log = "0.4.0"
+
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2018"

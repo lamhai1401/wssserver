@@ -1,3 +1,23 @@
+[[bin]]
+name = "wssserver"
+path = "src/bin/main.rs"
+
+[dependencies]
+actix-cors = "0.5.4"
+actix-http = "2.2.0"
+actix-service = "2.0.0"
+actix = "0.12.0"
+actix-web = "3.3.2"
+actix-rt = "1.1.1"
+dotenv = "0.9.0"
+env_logger = "0.8.2"
+futures = "0.3.5"
+futures-util = "0.3.5"
+log = "0.4.0"
+
+[lib]
+name = "wssserver"
+
 [package]
 name = "wssserver"
 version = "0.1.0"
@@ -7,19 +27,3 @@ default-run = "wssserver"
 readme = "README.md"
 homepage = "https://github.com/lamhai1401/wssserver"
 repository = "https://github.com/lamhai1401/wssserver"
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-actix = "0.11.1"
-actix-web = "3.3.2"
-actix-web-actors = "3.0.0"
-uuid = { version = "0.8.2", features = ["v4", "serde"] } # uuid's fit well in this context.
-
-
-[lib]
-name = "wssserver"
-# path = "src/"
-
-[[bin]]
-name = "wssserver"
-path = "src/bin/main.rs"

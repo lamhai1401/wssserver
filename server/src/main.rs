@@ -8,8 +8,18 @@ use dotenv::dotenv;
 use env_logger;
 use std::env;
 
+// internal pkg
+mod routes;
+
+// the cfg(test) attribute so this module is only compiled in tests.
+#[cfg(test)]
+mod tests;
+
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
+    // at the top of main()
+    let pool = db::new_pool();
+
     dotenv().ok();
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("debug"));
 
@@ -24,8 +34,12 @@ async fn main() -> std::io::Result<()> {
             ])
             .max_age(3600);
 
-        App::new().wrap(cors).wrap(Logger::default())
-        // .wrap(Logger::new("%a %{User-Agent}i"))
+        App::new()
+            .wrap(cors)
+            .wrap(Logger::default())
+            .data(pool.clone()) // share db connection pool to app
+            // .wrap(Logger::new("%a %{User-Agent}i"))
+            .configure(routes::routes)
     })
     .bind("0.0.0.0:8088")?
     .run()

@@ -1918,6 +1918,9 @@ dependencies = [
  "futures",
  "futures-util",
  "log",
+ "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]
@@ -2565,11 +2568,4 @@ checksum = "d59cefebd0c892fa2dd6de581e937301d8552cb44489cdff035c6187cb63fa5e"
 dependencies = [
  "winapi 0.2.8",
  "winapi-build",
-]
-
-[[package]]
-name = "wssserver"
-version = "0.1.0"
-dependencies = [
- "log",
 ]

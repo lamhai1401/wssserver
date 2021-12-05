@@ -2,6 +2,7 @@ SHELL := /bin/bash
 
 db_url := postgres://postgres:my_password@localhost:5434/my_database
 
+# 0
 run_server:
 	DATABASE_URL=$(db_url) \
 		CLIENT_HOST=http://localhost:3000 RUST_BACKTRACE=full \
@@ -9,9 +10,10 @@ run_server:
 		cargo run --bin server
 .PHONY: run_server
 
+# 1
 create_migration:
 	DATABASE_URL=$(db_url) diesel migration generate $(name) --migration-dir=db/migrations
-
+# 2
 migrate:
 	DATABASE_URL=$(db_url) diesel migration run --migration-dir=db/migrations
 

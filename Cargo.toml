@@ -19,4 +19,4 @@
 # repository = "https://github.com/lamhai1401/wssserver"
 
 [workspace]
-members = ["db","server"]
+members = ["db","server", "errors"]

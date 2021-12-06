@@ -1,6 +1,8 @@
 // question.rs
 use chrono::{DateTime, Utc};
-use diesel::{PgConnection, QueryDsl, Queryable, RunQueryDsl};
+
+// add Insertiable
+use diesel::{Insertable, PgConnection, QueryDsl, Queryable, RunQueryDsl};
 use serde::{Deserialize, Serialize};
 
 use crate::schema::questions;
@@ -19,4 +21,10 @@ impl Question {
         let all_questions = questions.order(body).load::<Question>(conn)?;
         Ok(all_questions)
     }
+}
+
+#[derive(Debug, Insertable)]
+#[table_name = "questions"]
+pub struct NewQuestion {
+    pub body: String,
 }

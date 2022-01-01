@@ -19,6 +19,15 @@ pub struct Question {
 }
 
 impl Question {
+    pub fn create(conn: &PgConnection, body: &String) -> Result<Question, Error> {
+        use crate::schema::questions::dsl::questions;
+
+        let question = diesel::insert_into(questions)
+            .values(NewQuestion { body: body.clone() })
+            .get_result::<Question>(conn)?;
+
+        Ok(question)
+    }
     pub fn get_all(conn: &PgConnection) -> Result<Vec<Question>, Error> {
         use crate::schema::questions::dsl::{body, questions};
 
@@ -28,7 +37,7 @@ impl Question {
     }
 }
 
-#[derive(Debug, Insertable)]
+#[derive(Debug, Insertable, Serialize, Deserialize)]
 #[table_name = "questions"]
 pub struct NewQuestion {
     pub body: String,

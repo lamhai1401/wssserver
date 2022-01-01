@@ -1,4 +1,5 @@
 [dependencies]
+errors = { path = "../errors" }
 chrono = { version = "0.4.6", features = ["serde"] }
 diesel = { version = "1.4.4", features = ["postgres", "r2d2", "uuid", "chrono"] }
 env_logger = "0.5.13"

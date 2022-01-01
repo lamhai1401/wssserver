@@ -1,4 +1,5 @@
 [dependencies]
+errors = { path = "../errors" }
 db = { path = "../db" } # data base
 actix = "0.10.0"
 actix-cors = "0.5"

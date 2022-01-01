@@ -7,7 +7,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::schema::questions;
 
-#[derive(Debug, Identifiable, Serialize, Deserialize, Queryable)]
+// local error
+use errors::Error;
+
+#[derive(Debug, Insertable, Serialize, Deserialize, Queryable)]
 pub struct Question {
     pub id: i32,
     pub body: String,
@@ -16,9 +19,11 @@ pub struct Question {
 }
 
 impl Question {
-    pub fn get_all(conn: &PgConnection) -> Result<Vec<Question>, diesel::result::Error> {
+    pub fn get_all(conn: &PgConnection) -> Result<Vec<Question>, Error> {
         use crate::schema::questions::dsl::{body, questions};
+
         let all_questions = questions.order(body).load::<Question>(conn)?;
+
         Ok(all_questions)
     }
 }

@@ -21,6 +21,7 @@ redo_migrate:
 	DATABASE_URL=$(db_url) diesel migration redo --migration-dir=db/migrations
 
 test_prepare:
+	docker-compose -f docker-compose.test.yml up -d
 	DATABASE_URL=postgres://root@localhost:5433/my_database_test diesel migration run --migration-dir=db/migrations
 
 test:
@@ -30,3 +31,4 @@ test:
 
 # Update the phony line:
 .PHONY: run_server test test_prepare
+

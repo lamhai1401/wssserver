@@ -5,8 +5,14 @@ mod tests {
         assert_eq!(2 + 2, 4);
     }
 }
+
+#[macro_use]
+extern crate log;
+
 #[macro_use]
 extern crate diesel;
+
+use r2d2::Error;
 
 pub mod models;
 pub mod schema;
@@ -18,8 +24,11 @@ use diesel::r2d2::{ConnectionManager, Pool, PooledConnection};
 
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 
-pub fn get_conn(pool: &PgPool) -> PooledConnection<ConnectionManager<PgConnection>> {
-    pool.get().unwrap()
+pub fn get_conn(pool: &PgPool) -> Result<PooledConnection<ConnectionManager<PgConnection>>, Error> {
+    pool.get().map_err(|err| {
+        error!("Failed to get connection - {}", err.to_string());
+        err.into()
+    })
 }
 
 pub fn new_pool() -> PgPool {

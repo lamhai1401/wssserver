@@ -64,4 +64,26 @@ mod tests {
             .execute(&conn)
             .unwrap();
     }
+
+    #[actix_rt::test]
+    pub async fn test_create_body_required() {
+        use errors::ErrorResponse;
+        let pool = new_pool();
+        let conn = get_conn(&pool).unwrap();
+
+        // note here how the deserialize type is changed
+        let res: (u16, ErrorResponse) = tests::test_post(
+            "/api/questions",
+            NewQuestion {
+                body: "".to_string(),
+            },
+        )
+        .await;
+
+        assert_eq!(res.0, 400);
+        assert_eq!(res.1.errors, vec!["Body is required"]);
+
+        let result_questions = questions::dsl::questions.load::<Question>(&conn).unwrap();
+        assert_eq!(result_questions.len(), 0);
+    }
 }

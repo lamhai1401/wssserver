@@ -1,6 +1,9 @@
 #[macro_use]
 extern crate log;
 
+type GenericError = Box<dyn std::error::Error + Send + Sync + 'static>;
+type GenericResult<T> = Result<T, GenericError>;
+
 use actix_web::{
     error::{BlockingError, ResponseError},
     Error as ActixError, HttpResponse,

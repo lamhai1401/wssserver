@@ -3,12 +3,23 @@ use actix_http::Request;
 use actix_service::Service;
 use actix_web::{body::Body, dev::ServiceResponse, error::Error, test, App};
 use serde::{de::DeserializeOwned, Serialize};
+// add the use statements so we can add the Server
+use actix::Actor;
+
+use super::websocket::{MessageToClient, Server};
+use actix_web_actors::ws;
 
 use crate::routes::routes;
 
 pub async fn get_service(
 ) -> impl Service<Request = Request, Response = ServiceResponse<Body>, Error = Error> {
-    test::init_service(App::new().data(db::new_pool()).configure(routes)).await
+    test::init_service(
+        App::new()
+            .data(db::new_pool())
+            .data(Server::new().start())
+            .configure(routes),
+    )
+    .await
 }
 
 pub async fn test_get<R>(route: &str) -> (u16, R)
@@ -55,4 +66,27 @@ where
     });
 
     (status, json_body)
+}
+
+pub fn get_test_server() -> test::TestServer {
+    test::start(|| {
+        App::new()
+            .data(db::new_pool())
+            .data(Server::new().start())
+            .configure(routes)
+    })
+}
+
+pub fn get_websocket_frame_data(frame: ws::Frame) -> Option<MessageToClient> {
+    match frame {
+        ws::Frame::Text(t) => {
+            let bytes = t.as_ref();
+            let data = String::from_utf8(bytes.to_vec()).unwrap();
+            let value: MessageToClient = serde_json::from_str(&data).unwrap();
+            return Some(value);
+        }
+        _ => {}
+    }
+
+    None
 }

@@ -1,6 +1,6 @@
 // question.rs
 use chrono::{DateTime, Utc};
-
+use std::collections::HashMap;
 // add Insertiable
 use diesel::{Insertable, PgConnection, QueryDsl, Queryable, RunQueryDsl};
 use serde::{Deserialize, Serialize};
@@ -10,7 +10,7 @@ use crate::schema::questions;
 // local error
 use errors::Error;
 
-#[derive(Debug, Insertable, Serialize, Deserialize, Queryable)]
+#[derive(Debug, Insertable, Serialize, Deserialize, Queryable, Clone)]
 pub struct Question {
     pub id: i32,
     pub body: String,
